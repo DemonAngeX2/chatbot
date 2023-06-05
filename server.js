@@ -42,7 +42,7 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
   host: "sql7.freesqldatabase.com",
   user: "sql7623774",
-  password: "sql7623774"
+  password: "4f3lyce9bS"
 });
 
 con.connect(function(err) {
