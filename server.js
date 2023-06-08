@@ -35,11 +35,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', '404.html'));
 });
 
-app.get('/allchats', (req, res) => {
+app.get('/allchats', cors(), (req, res) => {
   res.status(200).json(dialogData);
 });
 
-app.get('/createchat', (req, res) => {
+app.get('/createchat', cors(), (req, res) => {
   res.status(200).json({
     message: 'created',
   });
