@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/app.min.css">
+    <title>ChatBot</title>
+    <script src="./assets/js/app.js" defer></script>
+</head>
+<body>
+    <h1>ChatBot</h1>
+    <form id="formDialogue" action="http://localhost:3000/api/v1/chat" method="POST">
+    <div style="margin-left: 5%;">Saisissez votre demande</div>
+    <br>
+    <input class="form-question" type="text" id="question" name="question" placeholder="Plex c'est la vie !">
+    <a class="form-button"><button type="submit" class="btn btn-warning">Envoyer</button></a>
+    <br>
+    <br>
+    <div class="message">
+        <div class="question"></div>
+        <div class="answer"></div>
+    </div>
+    <br>
+    <br>
+    <a id="retour" href="index.html"><button type="button" class="btn btn-info">Retour</button></a>
+</form>
+</div>
+</body>
+</html>
