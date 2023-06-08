@@ -1,60 +1,73 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const port = 3000;
 const path = require('path');
+const { Sequelize } = require('sequelize');
+const dialogData = require('./dialogs.json');
+const cors = require('cors');
 
-app.use(express.json())
+// Activer CORS
+app.use(cors());
+app.options('*', cors());
+
+app.get('/api/v1/dialogs', (req, res) => {
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
+  res.status(200).json(dialogData);
+});
 
 // Swagger
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const swaggerOptions = {
-    swaggerDefinition: {
-        info: {
-            title: 'Dialog API',
-            description: 'Dialog API Information',
-            contact: {
-                name: 'Developer Name',
-            },
-            servers: ['http://localhost:3000'],
-        },
+  swaggerDefinition: {
+    info: {
+      title: 'Dialog API',
+      description: 'Dialog API Information',
+      contact: {
+        name: 'Developer Name',
+      },
+      servers: ['http://localhost:3000'],
     },
-    apis: ['./routes/v1/*.js'],
+  },
+  apis: ['./routes/v1/*.js'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use('/api/v1', require('./routes/v1'))
-
-/*app.get('/', middleware, (req, res) => {
-    res.send('Hello')
-})*/
+app.use('/api/v1', require('./routes/v1'));
 
 app.get('*', (req, res) => {
-    //res.status(404).json({ message: 'Not found'}) bonne pratique
-    res.sendFile(__dirname + "/view/404.html")
-})
-
-var mysql = require('mysql');
-
-var con = mysql.createConnection({
-  host: "sql7.freesqldatabase.com",
-  user: "sql7623774",
-  password: "4f3lyce9bS"
+  res.sendFile(path.join(__dirname, 'view', '404.html'));
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
+app.get('/allchats', (req, res) => {
+  res.status(200).json(dialogData);
 });
+
+app.get('/createchat', (req, res) => {
+  res.status(200).json({
+    message: 'created',
+  });
+});
+
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'db/database.sqlite',
+});
+
+(async function connect() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
-/*function middleware(req, res, next){
-    console.log('coucou')
-    next()
-}*/
+  console.log(`Example app listening on port ${port}`);
+});
