@@ -8,7 +8,7 @@ const cors = require('cors');
 
 
 app.get('/api/v1/dialogs', (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, POST');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
   res.status(200).json(dialogData);
