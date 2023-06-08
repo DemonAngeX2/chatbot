@@ -44,11 +44,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', '404.html'));
 });
 
-app.get('/allchats', cors(), (req, res) => {
+app.get('/allchats', (req, res) => {
   res.status(200).json(dialogData);
 });
 
-app.get('/createchat', cors(), (req, res) => {
+app.get('/createchat', (req, res) => {
   res.status(200).json({
     message: 'created',
   });
