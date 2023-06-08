@@ -6,16 +6,7 @@ const { Sequelize } = require('sequelize');
 const dialogData = require('./dialogs.json');
 const cors = require('cors');
 
-
-app.get('/api/v1/dialogs', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'GET, POST');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
-  res.status(200).json(dialogData);
-});
-
-
-
+app.use(cors());
 
 // Swagger
 const swaggerJsDoc = require('swagger-jsdoc');
