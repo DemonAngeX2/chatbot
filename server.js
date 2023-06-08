@@ -8,7 +8,11 @@ const cors = require('cors');
 
 
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: ['http://127.0.0.1:5500', 'https://backend-chatbot-60oq.onrender.com'],
+};
+app.use(cors(corsOptions));
+
 
 
 // Swagger
