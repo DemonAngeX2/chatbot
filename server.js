@@ -6,12 +6,7 @@ const { Sequelize } = require('sequelize');
 const dialogData = require('./dialogs.json');
 const cors = require('cors');
 
-app.get('/api/v1/dialogs', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
-  res.status(200).json(dialogData);
-});
+app.use(cors());
 
 // Swagger
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -34,7 +29,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use('/api/v1', require('./routes/v1'));
+app.use('/api/v1', cors(), require('./routes/v1'));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', '404.html'));
