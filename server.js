@@ -3,9 +3,13 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const { Sequelize } = require('sequelize');
-const dialogData = require('./dialog.json');
+const dialogData = require('./dialogs.json');
+const cors = require('cors');
+
 
 app.use(express.json());
+app.use(cors());
+
 
 // Swagger
 const swaggerJsDoc = require('swagger-jsdoc');
