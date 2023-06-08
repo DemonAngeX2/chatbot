@@ -1,19 +1,30 @@
-const dialog=[{question:"salut", answer:"Salut"}, {question:"ca va ?", answer:"Bien et toi ?"}, {question:"toto", answer:"tata"}]
-//console.table(dialog)
-//console.log(document.getElementById("formDialogue"))
 document.getElementById("formDialogue").addEventListener("submit", function(event){
     event.preventDefault();
-    //console.log(event.target);
-    //console.log(document.querySelector("#demande").value)
-    document.querySelector(".question").innerHTML = document.querySelector(".form-question").value;
-    
 
-dialog.forEach(element => {
-    //console.log(element.question)
-    if(element.question === document.querySelector(".form-question").value){
-        console.log(element.answer)
-        document.querySelector(".answer").innerHTML = element.answer
-    }
+    const question = document.querySelector(".form-question").value;
+    document.querySelector(".question").innerHTML = question;
+
+    // Envoyer la question au backend
+    fetch("https://backend-chatbot-60oq.onrender.com/api/v1/dialogs", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question: question })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Afficher la réponse du backend
+        if (data && data.answer) {
+            document.querySelector(".answer").innerHTML = data.answer;
+        } else {
+            document.querySelector(".answer").innerHTML = "Désolé, aucune réponse trouvée.";
+        }
+    })
+    .catch(error => {
+        console.error("Une erreur s'est produite lors de la communication avec le backend:", error);
+        document.querySelector(".answer").innerHTML = "Une erreur s'est produite. Veuillez réessayer.";
+    });
+
+    document.querySelector(".form-question").value = "";
 });
-document.querySelector(".form-question").value=""
-})
