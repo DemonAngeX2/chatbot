@@ -8,6 +8,13 @@ const cors = require('cors');
 
 app.use(cors());
 
+app.get('/api/v1/dialogs', (req, res) => {
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
+  res.status(200).json(dialogData);
+});
+
 // Swagger
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -29,7 +36,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use('/api/v1', cors(), require('./routes/v1'));
+app.use('/api/v1', require('./routes/v1'));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', '404.html'));
